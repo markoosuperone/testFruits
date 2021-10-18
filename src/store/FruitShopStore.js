@@ -9,7 +9,8 @@ export default class FruitShopStore {
         price: 10,
         discount: null,
         discountWeight: null,
-        img: "https://m.dom-eda.com/uploads/images/catalog/item/7e6fd19d46/0c87fefc9a_100crop.jpg",
+        img:
+          "https://m.dom-eda.com/uploads/images/catalog/item/7e6fd19d46/0c87fefc9a_100crop.jpg",
         counterKilo: 0,
         totalPrice: 0,
       },
@@ -19,7 +20,8 @@ export default class FruitShopStore {
         price: 8,
         discount: null,
         discountWeight: null,
-        img: "https://m.dom-eda.com/uploads/images/catalog/item/86df51de21/c25c94fe96_100crop.jpg",
+        img:
+          "https://m.dom-eda.com/uploads/images/catalog/item/86df51de21/c25c94fe96_100crop.jpg",
         counterKilo: 0,
         totalPrice: 0,
       },
@@ -27,9 +29,10 @@ export default class FruitShopStore {
         id: 3,
         name: "Папая",
         price: 10,
-        discount: 15,
+        discount: 25,
         discountWeight: 3,
-        img: "https://m.dom-eda.com/uploads/images/catalog/item/b230c322da/ea073f8b3b_100crop.jpg",
+        img:
+          "https://m.dom-eda.com/uploads/images/catalog/item/b230c322da/ea073f8b3b_100crop.jpg",
         counterKilo: 0,
         totalPrice: 0,
       },
@@ -68,6 +71,7 @@ export default class FruitShopStore {
     const newItem = {
       name: this._fruits[id - 1].name,
       price: this._fruits[id - 1].totalPrice,
+      counterKilo: this._fruits[id - 1].counterKilo,
       id: uuidv4(),
     };
     this._basket.push(newItem);

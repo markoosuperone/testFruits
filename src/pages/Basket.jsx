@@ -23,7 +23,7 @@ const Basket = observer(() => {
           className="d-flex justify-content-between"
           style={{ fontSize: "25px" }}
         >
-          {item.name} - {item.price}$
+          {item.name} - {item.counterKilo}кг - {item.price}$
           <Button
             className="btn btn-light "
             onClick={() => FruitShopStore.removeBasketItem(item.id)}

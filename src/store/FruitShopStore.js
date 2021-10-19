@@ -1,5 +1,4 @@
 import { makeAutoObservable } from "mobx";
-import { v4 as uuidv4 } from "uuid";
 export default class FruitShopStore {
   constructor() {
     this._fruits = [
@@ -51,15 +50,17 @@ export default class FruitShopStore {
     this._totalBasketPrice = price;
   }
 
-  increment(id) {
-    this._fruits[id - 1].counterKilo = this._fruits[id - 1].counterKilo + 1;
+  increment(indx) {
+    const currentItem = this._fruits[indx];
+    currentItem.counterKilo = currentItem.counterKilo + 1;
   }
 
-  decrement(id) {
-    if (this._fruits[id - 1].counterKilo > 0) {
-      this._fruits[id - 1].counterKilo = this._fruits[id - 1].counterKilo - 1;
+  decrement(indx) {
+    const currentItem = this._fruits[indx];
+    if (currentItem.counterKilo > 0) {
+      currentItem.counterKilo = currentItem.counterKilo - 1;
     } else {
-      this._fruits[id - 1].counterKilo = 0;
+      currentItem.counterKilo = 0;
     }
   }
 
@@ -67,32 +68,58 @@ export default class FruitShopStore {
     this._basket = this._basket.filter((item) => item.id !== id);
   }
 
-  setBasket(id) {
-    const newItem = {
-      name: this._fruits[id - 1].name,
-      price: this._fruits[id - 1].totalPrice,
-      counterKilo: this._fruits[id - 1].counterKilo,
-      id: uuidv4(),
-    };
-    this._basket.push(newItem);
-    this._fruits[id - 1].counterKilo = 0;
-    this._fruits[id - 1].totalPrice = 0;
+  setDiscount(indx, countKilo) {
+    const currentItem = this._fruits[indx];
+    const currentPrice = currentItem.price;
+    const currentDiscount = currentItem.discount;
+    const currentDiscountWeight = currentItem.discountWeight;
+
+    const priceWithDiscount =
+      Math.floor(countKilo / currentDiscountWeight) * currentDiscount;
+    const priceWithoutDiscount =
+      (countKilo % currentDiscountWeight) * currentPrice;
+    return priceWithDiscount + priceWithoutDiscount;
   }
 
-  setTotalPrice(id) {
-    const curentPrice = this._fruits[id - 1].price;
-    const curentDiscount = this._fruits[id - 1].discount;
-    const curentDiscountWeight = this._fruits[id - 1].discountWeight;
-    const curentCountKilo = this._fruits[id - 1].counterKilo;
-    if (curentDiscount && curentCountKilo >= curentDiscountWeight) {
-      const priceWithDicsount =
-        Math.floor(curentCountKilo / curentDiscountWeight) * curentDiscount;
-      const priceWithoutDiscount =
-        (curentCountKilo % curentDiscountWeight) * curentPrice;
-      this._fruits[id - 1].totalPrice =
-        priceWithDicsount + priceWithoutDiscount;
+  setBasket(id) {
+    const currentIndex = this._basket.findIndex((item) => item.id === id);
+    const currentFruitsIndx = id - 1;
+    const currentBasketItem = this._basket[currentIndex];
+    const currentFruitItem = this._fruits[currentFruitsIndx];
+
+    if (currentIndex !== -1) {
+      currentBasketItem.counterKilo =
+        currentBasketItem.counterKilo + currentFruitItem.counterKilo;
+
+      currentBasketItem.price =
+        currentFruitItem.discount &&
+        currentBasketItem.counterKilo >= currentFruitItem.discountWeight
+          ? this.setDiscount(currentFruitsIndx, currentBasketItem.counterKilo)
+          : currentBasketItem.price + currentFruitItem.totalPrice;
     } else {
-      this._fruits[id - 1].totalPrice = curentPrice * curentCountKilo;
+      const newItem = {
+        name: currentFruitItem.name,
+        price: currentFruitItem.totalPrice,
+        counterKilo: currentFruitItem.counterKilo,
+        id: currentFruitItem.id,
+      };
+      this._basket.push(newItem);
+    }
+
+    currentFruitItem.counterKilo = 0;
+    currentFruitItem.totalPrice = 0;
+  }
+
+  setTotalPrice(indx) {
+    const currentItem = this._fruits[indx];
+    const currentPrice = currentItem.price;
+    const currentDiscount = currentItem.discount;
+    const currentDiscountWeight = currentItem.discountWeight;
+    const currentCountKilo = currentItem.counterKilo;
+    if (currentDiscount && currentCountKilo >= currentDiscountWeight) {
+      currentItem.totalPrice = this.setDiscount(indx, currentCountKilo);
+    } else {
+      currentItem.totalPrice = currentPrice * currentCountKilo;
     }
   }
 

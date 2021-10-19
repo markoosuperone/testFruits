@@ -4,12 +4,12 @@ import { Button, Card, Container, Image } from "react-bootstrap";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { Context } from "..";
 
-const FriutItem = observer(({ fruit }) => {
+const FriutItem = observer(({ fruit, index}) => {
   const { FruitShopStore } = useContext(Context);
 
   useEffect(() => {
-    FruitShopStore.setTotalPrice(fruit.id);
-  }, [fruit.counterKilo, fruit.id, FruitShopStore]);
+    FruitShopStore.setTotalPrice(index);
+  }, [fruit.counterKilo, index, FruitShopStore]);
   return (
     <Card style={{ width: 155, border: "1px solid grey" }} className="ml-2">
       <Image width={150} height={150} src={fruit.img} />
@@ -27,11 +27,11 @@ const FriutItem = observer(({ fruit }) => {
       </Container>
       <Card.Title
         className="d-flex justify-content-center border-bottom"
-        style={{ fontSize: "40px" }}
+        style={{ fontSize: "30px" }}
       >
         <Button
           className="btn btn-light"
-          onClick={() => FruitShopStore.increment(fruit.id)}
+          onClick={() => FruitShopStore.increment(index)}
         >
           {" "}
           <AiOutlinePlus />
@@ -39,7 +39,7 @@ const FriutItem = observer(({ fruit }) => {
         {fruit.counterKilo} кг
         <Button
           className="btn btn-light"
-          onClick={() => FruitShopStore.decrement(fruit.id)}
+          onClick={() => FruitShopStore.decrement(index)}
         >
           {" "}
           <AiOutlineMinus />

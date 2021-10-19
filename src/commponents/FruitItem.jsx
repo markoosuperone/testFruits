@@ -4,7 +4,7 @@ import { Button, Card, Container, Image } from "react-bootstrap";
 import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { Context } from "..";
 
-const FriutItem = observer(({ fruit, index}) => {
+const FruitItem = observer(({ fruit, index}) => {
   const { FruitShopStore } = useContext(Context);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const FriutItem = observer(({ fruit, index}) => {
       </Container>
       <Card.Title
         className="d-flex justify-content-center border-bottom"
-        style={{ fontSize: "30px" }}
+        style={{ fontSize: "25px" }}
       >
         <Button
           className="btn btn-light"
@@ -59,4 +59,4 @@ const FriutItem = observer(({ fruit, index}) => {
     </Card>
   );
 });
-export default FriutItem;
+export default FruitItem;

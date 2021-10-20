@@ -1,7 +1,7 @@
 
-import Basket from "./pages/Basket";
+import Basket from "./pages/basket/Basket";
 
-import Shop from "./pages/Shop";
+import Shop from "./pages/shop/Shop";
 import {
 
   BASKET_ROUTE,

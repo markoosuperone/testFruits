@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Button, ListGroup } from "react-bootstrap";
 import { observer } from "mobx-react-lite";
-import { Context } from "..";
+import { Context } from "../..";
 import { AiFillDelete } from "react-icons/ai";
 
 const Basket = observer(() => {
@@ -12,10 +12,7 @@ const Basket = observer(() => {
   }, [FruitShopStore.basket, FruitShopStore]);
 
   return (
-    <ListGroup
-      className="d-flex justify-content-center m-4"
-      style={{ width: 300, border: "1px solid grey" }}
-    >
+    <ListGroup className="d-flex justify-content-center m-4 borderDark">
       <h1 className="d-flex justify-content-center">Моя корзина</h1>
       {FruitShopStore.basket.map((item) => (
         <ListGroup.Item
